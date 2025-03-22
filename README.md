@@ -1,19 +1,5 @@
 # 풀스택 GPT: #2.0 ~ #3.5
 
-## Tasks:
-
-- [x] Create a Github Repository
-- [x] Create a Python environment.
-- [x] Install dependencies.
-- [x] Create a Jupyter Notebook.
-- [x] Setup your OpenAI Keys.
-- [x] Make two chains and chain them together using LCEL.
-  - [x] 프로그래밍 언어에 대한 시를 쓰는 데 특화된 체인과 시를 설명하는 데 특화된 체인을 만드세요.
-  - [x] LCEL을 사용해 두 체인을 서로 연결합니다.
-  - [ ] 최종 체인은 프로그래밍 언어의 이름을 받고 시와 그 설명으로 응답해야 합니다.
-  - [x] 모델로는 "gpt-3.5-turbo"를 사용하고 프롬프트에는 ChatPromptTemplate을 사용하세요.
-- [x] Push the code to Github
-
 ## 환경설정(#2.5)
 
 1.  git init .
@@ -58,16 +44,42 @@ pip install -r requirements.txt
 
 # 풀스택 GPT: #4.0 ~ #4.6
 
-## Tasks:
+## [LangChain Modules](https://js.langchain.com/v0.1/docs/modules/)
 
-- [ ] 영화 이름을 가지고 감독, 주요 출연진, 예산, 흥행 수익, 영화의 장르, 간단한 시놉시스 등 영화에 대한 정보로 답장하는 체인을 만드세요.
-  > - LLM이 답변 형식을 학습하도록 다양한 영화에 대한 예시를 만들어야 합니다.
-  > - 예시는 과제의 요구조건을 만족시키려면 `감독`, `주요 출연진`, `예산`, `흥행 수익`, `장르`, `간략한 줄거리` 가 포함되어야 합니다. LLM이 답변 형식을 효과적으로 학습하려면 모든 예시는 `동일한 형식`을 유지해야 합니다.
-- [ ] LLM은 항상 동일한 형식을 사용하여 응답해야 하며, 이를 위해서는 원하는 출력의 예시를 LLM에 제공해야 합니다.
-- [ ] 예제를 제공하려면 FewShotPromptTemplate 또는 FewShotChatMessagePromptTemplate을 사용하세요.
-  > - 자세한 사용법은 다음 공식 문서를 참고해보세요
-  > - [Few-shot prompt templates](https://python.langchain.com/v0.1/docs/modules/model_io/prompts/few_shot_examples/)
-  > - [Few-shot examples for chat models](https://python.langchain.com/v0.1/docs/modules/model_io/prompts/few_shot_examples_chat/)
+1. Model I/O
+
+- input: prompt template
+- Language Models
+- output: parsers
+
+2. Retrieval: 외부 데이터를 모델에 주어 작업
+
+- document loaders
+- document transformers
+- Text embedding models
+- Vector stores
+- retrievers
+
+3. Agents
+
+- AI 자동화. chain에 목표와 도구를 주면 chain이 도구를 선택해 목표를 달성.
+
+4. Memory
+
+- 챗봇에 메모리를 주어 기억 저장
+
+5. Callbacks
+
+- 모델이 생각하는 바를 실시간으로 알게 해준다.
+
+## How to load prompt template from the disk
+
+- 두 가지 타입의 prompt 작성
+
+1. Json
+2. Yaml
+
+## [LangChain의 Third Party 제공업체 보기](https://python.langchain.com/docs/integrations/providers/)
 
 # 풀스택 GPT: #5.0 ~ #5.8
 
@@ -81,6 +93,26 @@ pip install -r requirements.txt
   >   > - [Few-shot prompt templates](https://python.langchain.com/v0.1/docs/modules/model_io/prompts/few_shot_examples/)
   >   > - [Few-shot examples for chat models](https://python.langchain.com/v0.1/docs/modules/model_io/prompts/few_shot_examples_chat/)
 - [ ] 메모리가 작동하는지 확인하려면 체인에 두 개의 영화에 대해 질문한 다음 다른 셀에서 체인에 먼저 질문한 영화가 무엇인지 알려달라고 요청하세요.
+
   > - ConversationBufferMemory 등 강의에서 배운 메모리 중 하나를 사용하여 이전 대화 기록을 기억하고 기록을 이용한 답변을 제공할 수 있도록 합니다.
   > - 채팅 형식의 메모리 기록을 프롬프트에 추가하고 싶을 때는 MessagesPlaceholder를 이용하세요. (공식문서 예시)
   > - RunnablePassthrough를 활용하면 LCEL 체인을 구현할 때 메모리 적용을 쉽게 할 수 있습니다. RunnablePassthrough는 메모리를 포함한 데이터를 체인의 각 단계에 전달하는 역할을 합니다. (강의 #5.7 1:04~ 참고)
+
+  # 풀스택 GPT: #6.0 ~ #6.10
+
+- [ ] Stuff Documents 체인을 사용하여 완전한 RAG 파이프라인을 구현하세요.
+- [ ]체인을 수동으로 구현해야 합니다.
+- [ ]체인에 ConversationBufferMemory를 부여합니다.
+- [ ]이 문서를 사용하여 RAG를 수행하세요: https://gist.github.com/serranoarevalo/5acf755c2b8d83f1707ef266b82ea223
+- [ ]체인에 다음 질문을 합니다:
+- [ ]Aaronson 은 유죄인가요?
+- [ ]그가 테이블에 어떤 메시지를 썼나요?
+- [ ]Julia 는 누구인가요?
+
+- 다음과 같은 절차대로 구현하면 챌린지를 해결할 수 있습니다.
+- (1) 문서 로드하기: `TextLoader` 등 을 사용해서 파일에서 텍스트를 읽어옵니다. ( [Document Loaders 관련 문서](https://python.langchain.com/v0.1/docs/modules/data_connection/document_loaders/)
+- (2) 문서 쪼개기: `CharacterTextSplitter` 등 을 사용해서 문서를 작은 문서 조각들로 나눕니다. [Character Split 관련 문서](https://python.langchain.com/v0.1/docs/modules/data_connection/document_transformers/character_text_splitter/)
+- (3) 임베딩 생성 및 캐시: `OpenAIEmbeddings`, `CacheBackedEmbeddings` 등 을 사용해 문서 조각들을 임베딩하고 임베딩을 저장합니다. [Caching 관련 문서](https://python.langchain.com/v0.1/docs/modules/data_connection/text_embedding/caching_embeddings/)
+- (4) 벡터 스토어 생성: `FAISS` 등 을 사용해서 임베딩된 문서들을 저장하고 검색할 수 있는 데이터베이스를 만듭니다. [FAISS 관련 문서](https://python.langchain.com/v0.1/docs/integrations/vectorstores/faiss/)
+- (5) 대화 메모리와 질문 처리: `ConversationBufferMemory` 를 사용해 대화 기록을 관리합니다.
+- (6) 체인 연결: 앞에서 구현한 컴포넌트들을 적절하게 체인으로 연결합니다.
