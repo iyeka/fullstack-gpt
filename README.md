@@ -41,3 +41,34 @@
 
 - environment variable will be loaded to the memory by default when Jupyter Notebook is running.
 - LLM과 Chat Model이 .env 라는 이름의 파일에서 OPENAI_API_KEY 라는 이름의 변수를 찾아본다.
+
+## 4.0 MODEL IO: Introduction
+
+### 모듈이란:
+
+- pre-made pieces
+
+### LangChain Modules
+
+- Model I/O
+
+  - Model Inputs: Prompts
+  - Language Models
+  - Model Outputs: Output Parsers
+
+- Retrieval: 외부 데이터에 접근하여 모델에 제공
+- Chains
+- Agents: AI 자동화. chain이 필요한 도구들을 직접 선택하여 사용한다.
+- Memory: Add memory to chatbot.
+- Callbacks: model이 하고 있는 일을 중간에 확인
+
+# 4.4 Serialization and Composition
+
+- Serialize: 저장, 불러오기
+- compose: 작은 프롬프트 조각들을 결합하는 것.
+
+## Serialization
+
+- two types of prompts:
+  - JSON
+  - YAML
