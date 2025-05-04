@@ -14,20 +14,22 @@ st.set_page_config(
     page_icon="💾",
 )
 
-# for streaming=True
+# custom CallBackHandler. 응답을 실시간으로 화면에 표시하기 위해 제작.
 class ChatCallbackHandler(BaseCallbackHandler):
     message = ""
     # unlimited arguments and keywords
     def on_llm_start(self, *args, **kwargs):
         self.message_box = st.empty() # 나중에 뭔가 담을 수 있는 빈 공간
 
-    def on_llm_end(self, *args, **kwargs):
-        save_message(self.message, "ai")
-    
     # llm이 새롭게 생성하는 모든 token에 대해 listen.
     def on_llm_new_token(self, token, *args, **kwargs):
+        # 빈 메시지에 토큰을 실시간으로 추가
         self.message += token # == self.message = f"{self.message}{token}"
         self.message_box.markdown(self.message) # ex) self.message = "a", message_box("a") -> self.message = "b", message_box("ab")
+
+    # llm이 작업을 끝내는 시점 감지
+    def on_llm_end(self, *args, **kwargs):
+        save_message(self.message, "ai")
 
 llm = ChatOpenAI(
     temperature=0.1,
@@ -37,7 +39,7 @@ llm = ChatOpenAI(
     ]
 )
 
-# duplicate file check
+# decorator for caching result of a function. 파일이 바뀌지 않는 한 함수가 다시 실행되지 않는다.
 @st.cache_data(show_spinner=True) # show_spinner="showing message"
 def embed_file(file):
     file_content = file.read()
