@@ -244,3 +244,8 @@ if message:
 ## Cache Streamlit Results(embed file function)
 
 - Use @st.cache_data decorator on the def embed_file function: The decorator looking for embed_file(file) function's file argument. if file exist, Streamlit will skip that function and return the previous value.
+
+# 8.4 Ollama
+
+- Ollama에서 다운받을 수 있는 Ollama run falcon:180b는 GPT4 만큼 성능을 내는 오픈소스 모델
+- Code challenge: sidebar에 llama, mistral, falcon 중 model 선택할 수 있는 dropbox 만들기
