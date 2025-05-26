@@ -18,11 +18,6 @@
 5. HuggingFace: GPT4 말고 다른 모델 가져오는 법
 6. FastAPI: ChatGPT plugin의 API 구축
 
-## 2.6 Jupyter Notebooks의 장점
-
-- print()를 하지 않아도 마지막 줄에 쓰는 변수가 실행된다.
-- 코드를 실행하면 메모리에 저장해 다음 셀에서 쓸 수 있다.
-
 ## 3.0 LLMs and Chat Models
 
 ### 차이
@@ -73,7 +68,7 @@
   - JSON
   - YAML
 
-#7.1 Magic
+# 7.1 Magic
 
 ## [Streamlit Widgets](https://docs.streamlit.io/develop/api-reference)
 
@@ -88,7 +83,7 @@
 - 변수 이름만 적어도 화면에 표시된다.
 - mention a variable or Class or whatever.
 
-#7.2 Data Flow
+# 7.2 Data Flow
 
 - data가 변경될 때마다(사용자가 뭔갈 입력하거나, 슬라이더를 드래그하거나 모든 경우) python file 전체가 재실행된다.
 
