@@ -11,10 +11,30 @@ from langchain.schema.runnable import RunnablePassthrough, RunnableLambda
 from typing import Literal
 
 
+def get_llm(api_key):
+    return ChatOpenAI(
+        api_key=api_key,
+        model="gpt-4o-mini-2024-07-18",
+        temperature=0.1,
+    )
+
+
+def get_prompt():
+    return ChatPromptTemplate.from_messages(
+        [
+            (
+                "system",
+                "Answer the human question only with following context. If you don't know the answer, don't make it up:\n\n{context}",
+            ),
+            ("human", "{question}"),
+        ]
+    )
+
+
 @st.cache_data(show_spinner="Embedding file...")
 def embed_file(file):
     file_content = file.read()
-    file_path = f"./challenge/day5/.cache/files/{file.name}"
+    file_path = f"./.cache/files/{file.name}"
     with open(file_path, "wb") as f:
         f.write(file_content)
 
@@ -26,8 +46,8 @@ def embed_file(file):
     )
     docs = loader.load_and_split(splitter)
 
-    embeddings = OpenAIEmbeddings()
-    cache_dir = LocalFileStore(f"./challenge/day5/.cache/embeddings/{file.name}")
+    embeddings = OpenAIEmbeddings(api_key=api_key)
+    cache_dir = LocalFileStore(f"./.cache/embeddings/{file.name}")
     cached_embeddings = CacheBackedEmbeddings.from_bytes_store(embeddings, cache_dir)
 
     vectorstore = FAISS.from_documents(docs, cached_embeddings)
@@ -57,36 +77,31 @@ def chat_history():
         send_message(message.content, message.type, save=False)
 
 
-prompt = ChatPromptTemplate.from_messages(
-    [
-        (
-            "system",
-            "Answer the human question only with following context. If you don't know the answer, don't make it up:\n\n{context}",
-        ),
-        ("human", "{question}"),
-    ]
-)
-
-llm = ChatOpenAI(
-    model="gpt-4o-mini-2024-07-18",
-    temperature=0.1,
-)
-
 st.title("RAG Pipeline with Streamlit")
-st.markdown(
-    """
-Upload your document to the sidebar.\n
-Chatbot will read the document and answer your questions on your behalf.
-"""
-)
 
 with st.sidebar:
+    api_key = st.text_input(
+        label="OpenAI API Key",
+        type="password",
+        placeholder="Type OpenAI API Key",
+    )
     file = st.file_uploader(
-        "upload file",
+        label="File",
         type=["pdf", "txt", "docx"],
     )
 
-if file:
+instructions = """
+    1. Enter your OpenAI API Key in the sidebar.\n
+    2. Upload your document to the sidebar.\n
+    3. Ask question.\n
+    4. Chatbot will read the document and answer the questions on your behalf.
+"""
+
+if api_key and file:
+
+    llm = get_llm(api_key)
+    prompt = get_prompt()
+
     retriever = embed_file(file)
     send_message("I'm READY. Ask away!", "ai", save=False)
     chat_history()
@@ -106,5 +121,10 @@ if file:
         )
         response = chain.invoke(question)
         send_message(response.content, "ai")
-else:
+
+elif api_key and not file:
     st.session_state["memory"] = ConversationBufferMemory(return_messages=True)
+    st.markdown(instructions)
+
+else:
+    st.markdown(instructions)
