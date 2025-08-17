@@ -1,6 +1,7 @@
 import streamlit as st
 from langchain.chat_models.openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
+from langchain.memory import ConversationBufferMemory
 from langchain.document_loaders import UnstructuredFileLoader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings import OpenAIEmbeddings, CacheBackedEmbeddings
@@ -34,20 +35,26 @@ def embed_file(file):
     return retriever
 
 
-def save_message(message, role: Literal["user", "assistant", "ai", "human"]):
-    st.session_state["messages"].append({"message": message, "role": role})
+def save_human_message(message):
+    st.session_state["memory"].chat_memory.add_user_message(message)
+
+
+def save_ai_message(message):
+    st.session_state["memory"].chat_memory.add_ai_message(message)
 
 
 def send_message(message, role: Literal["user", "assistant", "ai", "human"], save=True):
     with st.chat_message(role):
         st.markdown(message)
-    if save:
-        save_message(message, role)
+    if role == "human" and save:
+        save_human_message(message)
+    elif role == "ai" and save:
+        save_ai_message(message)
 
 
 def chat_history():
-    for message in st.session_state["messages"]:
-        send_message(message["message"], message["role"], save=False)
+    for message in st.session_state["memory"].chat_memory.messages:
+        send_message(message.content, message.type, save=False)
 
 
 prompt = ChatPromptTemplate.from_messages(
@@ -100,4 +107,4 @@ if file:
         response = chain.invoke(question)
         send_message(response.content, "ai")
 else:
-    st.session_state["messages"] = []
+    st.session_state["memory"] = ConversationBufferMemory(return_messages=True)
