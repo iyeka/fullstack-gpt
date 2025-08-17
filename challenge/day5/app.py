@@ -89,6 +89,10 @@ with st.sidebar:
         label="File",
         type=["pdf", "txt", "docx"],
     )
+    st.link_button(
+        label="🔗",
+        url="https://github.com/iyeka/fullstack-gpt/tree/main/challenge/day5",
+    )
 
 instructions = """
     1. Enter your OpenAI API Key in the sidebar.\n
