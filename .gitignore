@@ -1,4 +1,10 @@
 env/
 .env
-lectures/#6_files/.cache/
+.streamlit/
+
+lectures/#6_files/
+lectures/#7_files/
+
 challenge/assignment_4_cache/
+challenge/assignment_6/cache
+challenge/assignment_6/files
