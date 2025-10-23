@@ -111,7 +111,7 @@ with st.sidebar:
         type="password",
     )
     git_link = st.text_input("Put your Git commit link")
-    st.markdown([git_link](git_link))
+    st.markdown(f"[{git_link}]({git_link})")
 
 if file and api_key:
     FILE_PATH = f"./.cache/files/{file.name}"
