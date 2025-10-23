@@ -1,3 +1,4 @@
+import git
 import streamlit as st
 from langchain.document_loaders import UnstructuredFileLoader
 from langchain.text_splitter import CharacterTextSplitter
@@ -110,11 +111,7 @@ with st.sidebar:
         type="password",
     )
     git_link = st.text_input("Put your Git commit link")
-    st.markdown(
-        f"""
-    <a href={git_link}></a>
-    """
-    )
+    st.markdown([git_link](git_link))
 
 if file and api_key:
     FILE_PATH = f"./.cache/files/{file.name}"
@@ -160,12 +157,3 @@ if file and api_key:
 elif not file:
     if "memory" not in st.session_state:
         st.session_state["memory"] = ConversationBufferMemory(return_messages=True)
-
-
-"""
-invoke_chain("Is Aaronson guilty?")
-invoke_chain("What message did he write in the table?")
-invoke_chain("Who is Julia?")
-
-load_memory("input")
-"""
