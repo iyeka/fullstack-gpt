@@ -99,3 +99,23 @@
 
 - 용례 (Stuff VS MapReduce)
   retriever가 반환하는 document 수가 많으면 prompt에 document를 다 넣을 수 없기 때문에 Stuff 보다 각 document를 요약하는 MapReduce를 사용한다.
+
+## 7.8 Process of chain VS non-chain
+
+- Non-Chain
+
+```python
+docs = retreiver.invoke(message)
+docs = "\n\n".join(doc.page_content for doc in docs)
+prompt = template.format_messages(context=docs, question=message)
+llm.predict_messages(prompt)
+```
+
+- Chain
+
+```python
+chain = {
+  "context": retriever | RunnableLambda(lambda docs: "\n\n".join(doc.page_content for doc in docs)),
+  "question": RunnablePassthrough()
+} | prompt | llm
+```
