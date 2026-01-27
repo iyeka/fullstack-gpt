@@ -10,6 +10,19 @@
 - LangSmith Debugger
 - Agent model
 
+## 3.2 Prompt Templates
+
+- 사용하는 이유
+  - Validation
+  - Save and load template to disk
+
+- PromptTemplate
+  - Use when predicting text
+  - Create a template from string
+
+- ChatPromptTemplate
+  - Create a template from messages
+
 ## 3.3 LangChain Expression Language (LCEL)
 
 - 다양한 template, LLM 호출, 여러 responses를 함께 사용할 수 있도록 chain으로 연결한다.
@@ -21,15 +34,7 @@
 4. make parser
 5. parse
 
-- only need:
-
-1. template
-2. langauge model
-3. output parser
-
-## 3.4 Chaining Chains
-
-### LCEL working logic
+## 3.4 LCEL working logic
 
 - [Components those chains could have](https://python.langchain.com/docs/concepts/runnables/):
   | Component | Input Type | Output Type |
@@ -43,17 +48,30 @@
 
 # 4.0 Modules: pre-made pieces
 
-- Model I/O (input and output): ex. PromptTemplates, LMS, OutputParser
+- Model I/O (input and output)
+  - PromptTemplates
+  - Language Models
+  - OutputParser
 - Retrieval: 외부 데이터에 접근하여 모델에 제공 ex. DocumentLoaders, Transformers, TextEmbeddings, VectorStores, Retrievers
 - Chains
 - Agents: chain이 필요한 도구들을 직접 선택하여 사용하여, AI를 자동화 한다.
 - Memory: Add memory to chatbot.
 - Callbacks: model이 하고 있는 일을 답변 전에 확인한다.
 
-## 4.1 PromptTemplate의 장점
+## 4.1 FewShotPromptTemplate
 
-- validation
-- save and load template
+- 모델에게 대답하는 양식에 대한 예제들을 준다.
+- (ex) customer service database를 fewshot으로 format 시켜 customer support bot을 만든다.
+- 사용방법:
+  1. examples를 준비한다.
+  2. create a example_prompt to format the examples
+  3. FewShotPromptTemplate에 전달하면, fewshot이 examples 하나하나를 가져와 example_prompt로 format한다.
+  4. human question
+
+## 4.3 ExampleSelector
+
+- choose and limit examples that goes into prompt
+- 유저의 로그인 여부, 사용 언어 등의 기준으로 custom 할 수 있다.
 
 # 5 Memory
 
