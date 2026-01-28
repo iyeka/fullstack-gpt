@@ -87,11 +87,19 @@
   - 초반에는 토큰을 더 많이 차지하지만, 메시지가 많아질수록 유용해진다.
   - 메모리를 사용하는 데 비용이 든다.
 - Conversation Summary Buffer Memory
-  - ConversationSummaryMemory + ConversationBufferWindowMemory
+  - ConversationSummaryMemory + ConversationBufferMemory
   - limit에 다다르면 오래된 메시지부터 요약한다.
   - 메모리를 사용하는 데 비용이 든다.
 - Conversation KGMemory
-  - Entity의 Knowledge Graph(요약본)를 만든다.
+  - Entity를 추출해 Knowledge Graph(요약본)를 만든다.
+
+## 5.8 Memory on LLMChain VS LCEL chain
+
+- LLMChain (off-the-shelf)
+  - 자동: LLM response를 memory에 update
+  - 수동: memory를 prompt에 넣는 것
+- LCEL (custom chain)
+  - 모두 수동: load and save memory
 
 # 6 RAG: Retrieval Augmented Generation
 
