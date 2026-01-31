@@ -107,37 +107,42 @@
 
 ## 방식
 
-    1. Stuff
-    2. Refine
-    3. Map Reduce
+1. Stuff
+2. Refine
+3. Map Reduce
 
 ## 단계
 
-1. 첫번째 단계인 [Retrieval](https://python.langchain.com/v0.1/assets/images/data_connection-95ff2033a8faa5f3ba41376c0f6dd32a.jpg)
+1. ![Retrieval](https://image.samsungsds.com/kr/insights/20240308-image2.png?queryString=20250214030334)
+
+- Embedding: 사람이 읽는 문자를 컴퓨터가 이해할 수 있는 숫자로 변환하는 작업
 
 ## 6.3 Vectors
 
 - ![3D 벡터](../../Downloads/vector_plot.png)
 - [벡터를 사용하여 비슷한 문서들을 검색](https://turbomaze.github.io/word2vecjson/)
 - [참고영상](https://www.youtube.com/watch?v=2eWuYf-aZE4&t=16s)
+- Vector Store: Vector 공간을 검색할 수 있게 해주는 database
+- 순서: Create Vectors -> Cache -> Put in Vectorstore -> Search for relavant docs
 
 ## 6.6 Off-the-shelf Document Chains [Legacy]
 
 - 종류
   1. ![Stuff](https://python.langchain.com.cn/assets/images/stuff-f51054532840dfb3cbdf86670b48ac7f.jpg): Retrieve한 Documents를 모두 Prompt에 넣는다.
 
-  2. ![Refine](https://python.langchain.com.cn/assets/images/refine-42297d920f42e9988a3e53982f8e83d6.jpg): model이 각 document를 읽으며 답변을 생성한다. 답변을 쌓으면서 가다듬는다.
+  2. ![Refine](https://python.langchain.com.cn/assets/images/refine-42297d920f42e9988a3e53982f8e83d6.jpg): model이 각 document를 읽으며 답변을 생성하며 이전 답변을 가다듬는다.
 
-  3. ![Map Reduce](https://python.langchain.com.cn/assets/images/map_reduce-aa3ba13ab16536d9f9e046276bd83dd2.jpg): Retrieve한 Document별로 각각 체인을 돌린다. 발췌한 부분을 그대로 또는 요약하여 합친 뒤 LLM에 전달해 최종 응답한다.
+  3. ![Map Reduce](https://python.langchain.com.cn/assets/images/map_reduce-aa3ba13ab16536d9f9e046276bd83dd2.jpg)
+  - Retrieve한 Document별로 각각 요약한다. 발췌한 부분을 그대로 또는 요약하여 합친 뒤 LLM에 전달해 최종 응답한다.
   - 순서
     1. chain.invoke(질문)
     2. retriever returns 질문과 관련 있는 List of docs
     3. for doc in docs | prompt: '각각의 doc을 읽고 사용자의 질문에 답변하기에 중요한 정보를 추출해 주세요.' | llm
     4. for response in list of llm responses | put the all responses in one document.
-    5. final doc | prompt | llm
-  4. ![Map Re-rank](https://python.langchain.com.cn/assets/images/map_rerank-3aeb2ae5718693e009aef486ff0e4365.jpg): 각 document를 읽으면서 답변을 생성하고 그 답변에 대해 점수를 매긴다. 가장 높은 점수를 획득한 답변과 점수를 반환한다.
+    5. final doc | prompt: '질문과 관련된 정보들입니다. 이를 토대로 답변해주세요.' | llm
+  4. ![Map Re-rank](https://python.langchain.com.cn/assets/images/map_rerank-3aeb2ae5718693e009aef486ff0e4365.jpg): Retrieve한 documents를 각각 읽으면서 답변을 생성하고 그 답변에 대해 점수를 매긴다. 가장 높은 점수를 획득한 답변과 점수를 반환한다.
 
-- 용례 (Stuff VS MapReduce)
+- Stuff VS MapReduce
   retriever가 반환하는 document 수가 많으면 prompt에 document를 다 넣을 수 없기 때문에 Stuff 보다 각 document를 요약하는 MapReduce를 사용한다.
 
 ## 7.8 Process of chain VS non-chain

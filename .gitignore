@@ -1,4 +1,4 @@
 env/
 .env
 .streamlit/
-files/.cache/
+.cache/
