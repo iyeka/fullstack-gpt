@@ -119,7 +119,7 @@
 
 ## 6.3 Vectors
 
-- ![3D 벡터](../../Downloads/vector_plot.png)
+- ![3D 벡터](.cache/files/vector_plot.png)
 - [벡터를 사용하여 비슷한 문서들을 검색](https://turbomaze.github.io/word2vecjson/)
 - [참고영상](https://www.youtube.com/watch?v=2eWuYf-aZE4&t=16s)
 - Vector Store: Vector 공간을 검색할 수 있게 해주는 database
@@ -144,6 +144,11 @@
 
 - Stuff VS MapReduce
   retriever가 반환하는 document 수가 많으면 prompt에 document를 다 넣을 수 없기 때문에 Stuff 보다 각 document를 요약하는 MapReduce를 사용한다.
+
+## 7.7 @st.cache_data
+
+- 함수 위에 데코레이터를 붙여 사용
+- 함수의 인자가 처음 실행했을 떄와 동일하면, 함수를 재실행하지 않지 않고 이전 결과를 반환한다.
 
 ## 7.8 Process of chain VS non-chain
 
