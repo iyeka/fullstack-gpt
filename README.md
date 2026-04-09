@@ -58,21 +58,6 @@
 - Memory: Add memory to chatbot.
 - Callbacks: model이 하고 있는 일을 답변 전에 확인한다.
 
-## 4.1 FewShotPromptTemplate
-
-- 모델에게 대답하는 양식에 대한 예제들을 준다.
-- (ex) customer service database를 fewshot으로 format 시켜 customer support bot을 만든다.
-- 사용방법:
-  1. examples를 준비한다.
-  2. create a example_prompt to format the examples
-  3. FewShotPromptTemplate에 전달하면, fewshot이 examples 하나하나를 가져와 example_prompt로 format한다.
-  4. human question
-
-## 4.3 ExampleSelector
-
-- choose and limit examples that goes into prompt
-- 유저의 로그인 여부, 사용 언어 등의 기준으로 custom 할 수 있다.
-
 # 5 Memory
 
 - Conversation Buffer Memory
@@ -91,7 +76,10 @@
   - limit에 다다르면 오래된 메시지부터 요약한다.
   - 메모리를 사용하는 데 비용이 든다.
 - Conversation KGMemory
+  - 대화 중 중요한 내용만 뽑아내어 저장한다.
   - Entity를 추출해 Knowledge Graph(요약본)를 만든다.
+- Conversation Token Buffer Memory
+  - ConversationBufferWindowMemory와 비슷한데, interaction 값 대신 토큰 양을 limit으로 둔다.
 
 ## 5.8 Memory on LLMChain VS LCEL chain
 
