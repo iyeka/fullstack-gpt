@@ -103,7 +103,9 @@
 
 1. ![Retrieval](https://image.samsungsds.com/kr/insights/20240308-image2.png?queryString=20250214030334)
 
-- Embedding: 사람이 읽는 문자를 컴퓨터가 이해할 수 있는 숫자로 변환하는 작업
+1) Load and split the source
+2) Embedding: 사람이 읽는 문자를 컴퓨터가 이해할 수 있는 숫자로 변환하는 작업
+3) Store the embedded numbers and search
 
 ## 6.3 Vectors
 
@@ -121,7 +123,7 @@
   2. ![Refine](https://python.langchain.com.cn/assets/images/refine-42297d920f42e9988a3e53982f8e83d6.jpg): model이 각 document를 읽으며 답변을 생성하며 이전 답변을 가다듬는다.
 
   3. ![Map Reduce](https://python.langchain.com.cn/assets/images/map_reduce-aa3ba13ab16536d9f9e046276bd83dd2.jpg)
-  - Retrieve한 Document별로 각각 요약한다. 발췌한 부분을 그대로 또는 요약하여 합친 뒤 LLM에 전달해 최종 응답한다.
+  - Retrieve한 각각의 Document에서 질문과 관련된 부분을 발췌한다. 발췌문을 합쳐 LLM에 전달해 최종 응답한다.
   - 순서
     1. chain.invoke(질문)
     2. retriever returns 질문과 관련 있는 List of docs
