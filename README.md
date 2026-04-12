@@ -133,7 +133,8 @@
   4. ![Map Re-rank](https://python.langchain.com.cn/assets/images/map_rerank-3aeb2ae5718693e009aef486ff0e4365.jpg): Retrieve한 documents를 각각 읽으면서 답변을 생성하고 그 답변에 대해 점수를 매긴다. 가장 높은 점수를 획득한 답변과 점수를 반환한다.
 
 - Stuff VS MapReduce
-  retriever가 반환하는 document 수가 많으면 prompt에 document를 다 넣을 수 없기 때문에 Stuff 보다 각 document를 요약하는 MapReduce를 사용한다.
+  - retriever가 반환하는 document 수가 많으면 prompt에 document를 다 넣을 수 없기 때문에 Stuff 보다 각 document를 요약하는 MapReduce를 사용한다
+  - 비용을 아끼고 싶다면 stuff
 
 ## 7.7 @st.cache_data
 
