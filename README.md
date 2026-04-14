@@ -181,6 +181,7 @@ B. HuggingFaceHub: 무료 허깅페이스 서버 사용
    model_kwargs={"max_new_tokens": 250},
    )
    ```
+5. model instruction에 따라 prompt를 작성한다.
 
 C. 컴퓨터에 다운로드 받아 사용
 
@@ -189,6 +190,8 @@ C. 컴퓨터에 다운로드 받아 사용
    llm = HuggingFacePipeline.from_model_id(
      model_id="gpt2",
      task="text-generation",
+     device=0, #GPU
+     divice=-1, #CPU
      pipeline_kwargs={
          "max_new_tokens": 50
      },
@@ -198,17 +201,20 @@ C. 컴퓨터에 다운로드 받아 사용
 ## 8.3 Download GPT4All
 
 1. Search for model(ex.falcon-q4)
-2. llm = GPT4All(model="./falcon.bin")
+2. llm = GPT4All(model="./falcon.bin") # Where to save
 
 ## 8.4 Ollama
 
 1. Download Ollama from [page](ollama.ai/download)
-2. terminal에 ollama run mistral
-3. Ollama가 하는 일
+2. Find model from [page](https://ollama.com/library)
+3. terminal에 ollama run model-name (ex. ollama run falcon:180b-chat)
+4. Ollama가 하는 일
 
 - 컴퓨터에 서버를 만든다.
 - localhost/API로 send requests
 - model을 사용하여 response를 준다.
+
+5. 모델 삭제 시 ollama rm model-name
 
 ## 9.8 Function Calling
 
