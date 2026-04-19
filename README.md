@@ -218,7 +218,8 @@ C. 컴퓨터에 다운로드 받아 사용
 
 ## 9.8 Function Calling
 
-- Give llm functions to use
+- Force llm output structure
+- Give llm functions to call
 - Only works for OpenAI models
 
 ## 10.3 Parsing Function
