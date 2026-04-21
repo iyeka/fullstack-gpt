@@ -130,7 +130,16 @@
     3. for doc in docs | prompt: '각각의 doc을 읽고 사용자의 질문에 답변하기에 중요한 정보를 추출해 주세요.' | llm
     4. for response in list of llm responses | put the all responses in one document.
     5. final doc | prompt: '질문과 관련된 정보들입니다. 이를 토대로 답변해주세요.' | llm
-  4. ![Map Re-rank](https://python.langchain.com.cn/assets/images/map_rerank-3aeb2ae5718693e009aef486ff0e4365.jpg): Retrieve한 documents를 각각 읽으면서 답변을 생성하고 그 답변에 대해 점수를 매긴다. 가장 높은 점수를 획득한 답변과 점수를 반환한다.
+  4. ![Map Re-rank](https://python.langchain.com.cn/assets/images/map_rerank-3aeb2ae5718693e009aef486ff0e4365.jpg)
+  - Retrieve한 documents를 각각 읽으면서 답변을 생성하고 그 답변에 대해 점수를 매긴다. 가장 높은 점수를 획득한 답변과 점수를 반환한다.
+  - 순서
+    1. retriever로부터 documents를 받는다.
+    2. 두 체인을 만든다.
+    - 첫 번째 체인
+      - 각각의 doc을 llm에 전달하여 "doc만 사용하여 user question에 답변해줘"
+      - llm에 "답변의 유용한 정도를 0점~5점으로 평가해줘"
+    - 두 번째 체인
+      - 답변과 점수를 다른 prompt에 넣고 "주어진 답변을 보고, 점수가 가장 높고, 가장 최근에 작성된 답변을 선택해줘"
 
 - Stuff VS MapReduce
   - retriever가 반환하는 document 수가 많으면 prompt에 document를 다 넣을 수 없기 때문에 Stuff 보다 각 document를 요약하는 MapReduce를 사용한다
@@ -222,8 +231,26 @@ C. 컴퓨터에 다운로드 받아 사용
 - Give llm functions to call
 - Only works for OpenAI models
 
+## 10.1 AsyncChromiumLoader
+
+- 목표: Scrape all the html from the website and clean it to text.
+- 방법: 2 types of data loaders
+  1. Playwright + Chromium, and BeautifulSoup:
+  - Playwright
+    - Browser control package like Selenium
+    - 가상환경에서 console에 playwright install -> AsyncChromiumLoader를 documenet loader로 사용
+    - 브라우저를 사용하기 때문에 느리다.
+  - 언제 사용:
+    - 웹사이트에 sitemap이 없을 때 사용
+    - Javascript 코드가 많은 사이트를 추출할 때 사용. 접속 직후에 data들이 바로 로딩되지 않기 때문.
+  2. Sitemap Loader
+  - 웹사이트의 sitemap을 가져온다.
+  - 주소 뒤에 /sitemap.xml 을 붙인다.
+  - all the directories from the url 을 볼 수 있다.
+  - text가 많은 정적인 사이트를 긁어올 때 사용
+
 ## 10.3 Parsing Function
 
 - filter_urls REGEX:
-  - r"^(._\/ai-gateway\/)._" : scrape all sites those include /ai-gateway/
-  - r"^(?!._\/vectorize\/)._" : scrape all sites except /vectorize/ is included.
+  - r"^(._\/blog\/)._": scrape blog를 포함하는 urls
+  - r"^(?!._\/blog\/)._": scrape blog를 포함하지 않는 urls

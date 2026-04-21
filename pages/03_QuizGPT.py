@@ -236,7 +236,6 @@ with st.sidebar:
         "Choose what you want to use",
         ("File", "Wikipedia Article"),
     )
-    show_answer = st.toggle("Show answers immediately")
 
     if choice == "File":
         file = st.file_uploader("FILE", ["pdf", "txt", "docx"])
@@ -247,6 +246,7 @@ with st.sidebar:
         if topic:
             docs = wiki_search(topic)
 
+    show_answer = st.toggle("Show answers immediately")
 
 if not docs:
     st.markdown(
@@ -277,7 +277,12 @@ else:
             if {"answer": value, "correct": True} in question["answers"]:
                 st.success("Correct")
             elif value is not None:
-                st.error("Wrong")
+                if show_answer:
+                    correct_answer = next(
+                        answer for answer in question["answers"] if answer["correct"]
+                    )
+                    st.error(f"Answer={correct_answer['answer']}")
+                else:
+                    st.error("Wrong")
 
         button = st.form_submit_button()
-
