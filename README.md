@@ -254,3 +254,27 @@ C. 컴퓨터에 다운로드 받아 사용
 - filter_urls REGEX:
   - r"^(._\/blog\/)._": scrape blog를 포함하는 urls
   - r"^(?!._\/blog\/)._": scrape blog를 포함하지 않는 urls
+
+## 12.1 Your First Agent
+
+- AgentType.STRUCTURED_CHAT_ZERO_SHOT_REACT_DESCRIPTION:
+  - STRUCTURED: tools have multiple inputs
+  - CHAT: optimized for chat models
+  - ZERO_SHOT_REACT: react라는 논문에 기반한 type의 agent
+
+## 12.2 How Do Agents Work
+
+```python
+next_action = agent.get_action(...)
+while next_action != AgentFinish:
+    observation = run(next_action)
+    next_action = agent.get_action(..., next_action, observation)
+return next_action
+```
+
+## 12.3 Zero-shot ReAct Agent
+
+- AgentType.Zero-shot ReAct Agent
+  - most general purpose
+  - STRUCTURED agent와 다르게 하나의 input만 받을 수 있음
+  - ReAct: Reasoning and Acting 논문에 기반
