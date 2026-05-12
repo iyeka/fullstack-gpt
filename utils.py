@@ -1,12 +1,12 @@
-from typing import List
-
 from langchain.document_loaders import UnstructuredFileLoader
 from langchain.embeddings import CacheBackedEmbeddings
 from langchain.schema import Document
 from langchain.storage import LocalFileStore
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores.faiss import FAISS
+import streamlit as st
 
+from typing import List, Literal
 from streamlit.runtime.uploaded_file_manager import UploadedFile
 from langchain_core.embeddings import Embeddings
 
